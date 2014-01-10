@@ -19,6 +19,8 @@ Route::model('user', 'User');
 Route::model('comment', 'Comment');
 Route::model('post', 'Post');
 Route::model('role', 'Role');
+Route::model('hotel', 'Hotel');
+Route::model('hotelpic', 'HotelPic');
 
 /** ------------------------------------------
  *  Route constraint patterns
@@ -26,6 +28,7 @@ Route::model('role', 'Role');
  */
 Route::pattern('comment', '[0-9]+');
 Route::pattern('post', '[0-9]+');
+Route::pattern('hotel', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
@@ -37,6 +40,14 @@ Route::pattern('token', '[0-9a-z]+');
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
 
+    # Hotel Management
+    Route::get('hotels/{hotel}/show', 'AdminHotelssController@getShow');
+    Route::get('hotels/{hotel}/edit', 'AdminHotelsController@getEdit');
+    Route::post('hotels/{hotel}/edit', 'AdminHotelsController@postEdit');
+    Route::get('hotels/{hotel}/delete', 'AdminHotelsController@getDelete');
+    Route::post('hotels/{hotel}/delete', 'AdminHotelsController@postDelete');
+    Route::controller('hotels', 'AdminHotelsController');
+	
     # Comment Management
     Route::get('comments/{comment}/edit', 'AdminCommentsController@getEdit');
     Route::post('comments/{comment}/edit', 'AdminCommentsController@postEdit');

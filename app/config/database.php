@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'laravelbootstrapstarter',
-			'username'  => 'user',
-			'password'  => 'password',
+			'database'  => 'exam',
+			'username'  => 'root',
+			'password'  => 'a4e5h5s6x6',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cmn-Hans">
 	<head>
 		<!-- Basic Page Needs
 		================================================== -->
@@ -53,21 +53,22 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
+					<a class="navbar-brand" href="{{{ URL::to('') }}}">微格</a>
                 </div>
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav">
-						<li {{ (Request::is('/') ? ' class="active"' : '') }}><a href="{{{ URL::to('') }}}">Home</a></li>
+						<li {{ (Request::is('/') ? ' class="active"' : '') }}><a href="{{{ URL::to('') }}}">首页</a></li>
 					</ul>
 
                     <ul class="nav navbar-nav pull-right">
                         @if (Auth::check())
                         @if (Auth::user()->hasRole('admin'))
-                        <li><a href="{{{ URL::to('admin') }}}">Admin Panel</a></li>
+                        <li><a href="{{{ URL::to('admin') }}}"> 管理员面板</a></li>
                         @endif
-                        <li><a href="{{{ URL::to('user') }}}">Logged in as {{{ Auth::user()->username }}}</a></li>
-                        <li><a href="{{{ URL::to('user/logout') }}}">Logout</a></li>
+                        <li><a href="{{{ URL::to('user') }}}"> {{{ Auth::user()->username }}}</a>,欢迎您！</li>
+                        <li><a href="{{{ URL::to('user/logout') }}}">登出</a></li>
                         @else
-                        <li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">Login</a></li>
+                        <li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">登陆</a></li>
                         <li {{ (Request::is('user/register') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/create') }}}">{{{ Lang::get('site.sign_up') }}}</a></li>
                         @endif
                     </ul>
@@ -97,7 +98,7 @@
 
 	    <div id="footer">
 	      <div class="container">
-	        <p class="muted credit">Laravel 4 Starter Site on <a href="https://github.com/andrew13/Laravel-4-Bootstrap-Starter-Site">Github</a>.</p>
+	        <p class="muted credit">版权所有 <a href="http://www.viglle.com/">微格北京</a>.</p>
 	      </div>
 	    </div>
 
