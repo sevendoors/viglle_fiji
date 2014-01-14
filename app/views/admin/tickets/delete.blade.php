@@ -8,10 +8,10 @@
         </ul>
     <!-- ./ tabs -->
     {{-- Delete Hotel Form --}}
-    <form id="deleteForm" class="form-horizontal" method="post" action="@if (isset($hotel)){{ URL::to('admin/hotels/' . $hotel->id . '/delete') }}@endif" autocomplete="off">
+    <form id="deleteForm" class="form-horizontal" method="post" action="@if (isset($hotel)){{ URL::to('admin/tickets/' . $ticket->id . '/delete') }}@endif" autocomplete="off">
         <!-- CSRF Token -->
         <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-        <input type="hidden" name="id" value="{{ $hotel->id }}" />
+        <input type="hidden" name="id" value="{{ $ticket->id }}" />
         <!-- ./ csrf token -->
 
         <!-- Form Actions -->

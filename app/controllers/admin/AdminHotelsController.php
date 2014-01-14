@@ -75,13 +75,19 @@ class AdminHotelsController extends AdminController {
             // Update the blog post data
             $this->hotel->title            = Input::get('title');
             $this->hotel->price            = Input::get('price');
-            $this->hotel->link            = Input::get('link');
+            $this->hotel->link             = Input::get('link');
             $this->hotel->content          = Input::get('content');
             $this->hotel->user_id          = $user->id;
 
+			//保存hotel相关图片
             // Was the blog post created?
             if($this->hotel->save())
             {
+			$hotelpic	=	new HotelPic;
+			$hotelpic->hotel_id =	$this->hotel->id;
+			$hotelpic->user_id	=	Auth::user()->id;
+			$hotelpic->pic_url	=	Input::get('pic_url');
+			$this->hotel->hotelpics()->save($hotelpic);
                 // Redirect to the new blog post page
                 return Redirect::to('admin/hotels/' . $this->hotel->id . '/edit')->with('success', Lang::get('admin/hotels/messages.create.success'));
             }
@@ -144,7 +150,8 @@ class AdminHotelsController extends AdminController {
         {
             // Update the blog post data
             $hotel->title            = Input::get('title');
-            //$hotel->link             = Input::get('link');
+			$hotel->link			 = Input::get('link');
+			$hotel->price			 = Input::get('price');
             $hotel->content          = Input::get('hotel');
 
             // Was the blog post updated?

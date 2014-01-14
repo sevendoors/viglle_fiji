@@ -28,6 +28,24 @@
 					</div>
 				</div>
 				<!-- ./ post title -->
+				<!-- Post Price -->
+				<div class="form-group {{{ $errors->has('price') ? 'error' : '' }}}">
+                    <div class="col-md-12">
+                        <label class="control-label" for="price">价格</label>
+						<input class="form-control" type="text" name="price" id="price" value="{{{ Input::old('price', isset($hotel) ? $hotel->price : null) }}}" />
+						{{{ $errors->first('price', '<span class="help-inline">:message</span>') }}}
+					</div>
+				</div>
+				<!-- ./ post price -->
+				<!-- Post Link -->
+				<div class="form-group {{{ $errors->has('link') ? 'error' : '' }}}">
+                    <div class="col-md-12">
+                        <label class="control-label" for="link">链接到</label>
+						<input class="form-control" type="text" name="link" id="link" value="{{{ Input::old('link', isset($hotel) ? $hotel->link : null) }}}" />
+						{{{ $errors->first('link', '<span class="help-inline">:message</span>') }}}
+					</div>
+				</div>
+				<!-- ./ post link -->
 
 				<!-- Content -->
 				<div class="form-group {{{ $errors->has('content') ? 'error' : '' }}}">
@@ -43,6 +61,14 @@
 
 			<!-- Meta Data tab -->
 			<div class="tab-pane" id="tab-meta-data">
+				<!-- Post Price -->
+				<div class="form-group {{{ $errors->has('pic_url') ? 'error' : '' }}}">
+                    <div class="col-md-12">
+                        <label class="control-label" for="pic_url">图片</label>
+						<input class="form-control" type="text" name="pic_url" id="pic_url" value="" />
+					</div>
+				</div>
+				<!-- ./ post price -->
 			</div>
 			<!-- ./ meta data tab -->
 		</div>

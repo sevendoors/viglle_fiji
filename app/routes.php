@@ -21,6 +21,7 @@ Route::model('post', 'Post');
 Route::model('role', 'Role');
 Route::model('hotel', 'Hotel');
 Route::model('hotelpic', 'HotelPic');
+Route::model('ticket', 'Ticket');
 
 /** ------------------------------------------
  *  Route constraint patterns
@@ -29,6 +30,7 @@ Route::model('hotelpic', 'HotelPic');
 Route::pattern('comment', '[0-9]+');
 Route::pattern('post', '[0-9]+');
 Route::pattern('hotel', '[0-9]+');
+Route::pattern('ticket', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
@@ -40,8 +42,15 @@ Route::pattern('token', '[0-9a-z]+');
 Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
 {
 
+    # Ticket Management
+    Route::get('tickets/{ticket}/show', 'AdminTicketsController@getShow');
+    Route::get('tickets/{ticket}/edit', 'AdminTicketsController@getEdit');
+    Route::post('tickets/{ticket}/edit', 'AdminTicketsController@postEdit');
+    Route::get('tickets/{ticket}/delete', 'AdminTicketsController@getDelete');
+    Route::post('tickets/{ticket}/delete', 'AdminTicketsController@postDelete');
+    Route::controller('tickets', 'AdminTicketsController');
     # Hotel Management
-    Route::get('hotels/{hotel}/show', 'AdminHotelssController@getShow');
+    Route::get('hotels/{hotel}/show', 'AdminHotelsController@getShow');
     Route::get('hotels/{hotel}/edit', 'AdminHotelsController@getEdit');
     Route::post('hotels/{hotel}/edit', 'AdminHotelsController@postEdit');
     Route::get('hotels/{hotel}/delete', 'AdminHotelsController@getDelete');
@@ -117,6 +126,9 @@ Route::get('contact-us', function()
 # Posts - Second to last set, match slug
 Route::get('{postSlug}', 'BlogController@getView');
 Route::post('{postSlug}', 'BlogController@postView');
+#
+Route::get('ticket/index','TicketController@getIndex');
+Route::get('ticket/{id}','TicketController@getView');
 
 # Index Page - Last route, no matches
 Route::get('/', array('before' => 'detectLang','uses' => 'BlogController@getIndex'));
