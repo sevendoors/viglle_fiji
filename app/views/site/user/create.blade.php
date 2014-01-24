@@ -1,15 +1,10 @@
-@extends('site.layouts.default')
 
+        {{ Basset::show('public.css') }}
 {{-- Web site Title --}}
-@section('title')
 {{{ Lang::get('user/user.register') }}} ::
-@parent
-@stop
 
 {{-- Content --}}
-@section('content')
 <div class="page-header">
-	<h1>Signup</h1>
+	<h1>注册YO斐济账号登录</h1>
 </div>
 {{ Confide::makeSignupForm()->render() }}
-@stop

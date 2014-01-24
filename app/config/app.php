@@ -52,7 +52,7 @@ return array(
 	|
 	*/
 
-	'locale' => 'en',
+	'locale' => 'zh_CN',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -121,6 +121,7 @@ return array(
         'Basset\BassetServiceProvider', // Better Asset Management
         'Robbo\Presenter\PresenterServiceProvider', // Presenter
         'Bllim\Datatables\DatatablesServiceProvider', // Datatables
+	'Intervention\Image\ImageServiceProvider',
 
         /* Uncomment for use in development */
 //        'Way\Generators\GeneratorsServiceProvider', // Generators
@@ -191,6 +192,7 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+		'Image'		  => 'Intervention\Image\Facades\Image',
 
         /* Additional Aliases */
         'Confide'         => 'Zizaco\Confide\ConfideFacade', // Confide Alias
@@ -204,6 +206,6 @@ return array(
 
     ),
 
-    'available_language' => array('en', 'pt', 'es'),
+    'available_language' => array('zh_CN','en', 'pt', 'es'),
 
 );

@@ -6,12 +6,12 @@
 		<meta charset="utf-8" />
 		<title>
 			@section('title')
-			Laravel 4 Sample Site
+			斐济旅行
 			@show
 		</title>
-		<meta name="keywords" content="your, awesome, keywords, here" />
-		<meta name="author" content="Jon Doe" />
-		<meta name="description" content="Lorem ipsum dolor sit amet, nihil fabulas et sea, nam posse menandri scripserit no, mei." />
+		<meta name="keywords" content="斐济旅行" />
+		<meta name="author" content="Viglle" />
+		<meta name="description" content="斐济旅行" />
 
 		<!-- Mobile Specific Metas
 		================================================== -->

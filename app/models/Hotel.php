@@ -14,7 +14,6 @@ class Hotel extends Eloquent implements PresentableInterface {
 	public function delete()
 	{
 		// Delete the comments
-		$this->hotelpics()->delete();
 
 		// Delete the blog post
 		return parent::delete();
@@ -41,15 +40,6 @@ class Hotel extends Eloquent implements PresentableInterface {
 		return $this->belongsTo('User', 'user_id');
 	}
 
-	/**
-	 * Get the post's comments.
-	 *
-	 * @return array
-	 */
-	public function hotelpics()
-	{
-		return $this->hasMany('HotelPic');
-	}
 
     /**
      * Get the date the post was created.

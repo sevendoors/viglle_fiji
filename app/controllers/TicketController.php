@@ -13,9 +13,9 @@ class TicketController extends BaseController {
     
 	public function getIndex()
 	{
-		$tickets = $this->ticket->orderBy('created_at', 'DESC')->paginate(10);
+//		$tickets = $this->ticket->orderBy('created_at', 'DESC')->paginate(10);
 
-		return View::make('site/ticket/index', compact('tickets'));
+		return View::make('fiji/ticket/index', compact('tickets'));
 	}
 
 	public function getView($id)

@@ -20,8 +20,8 @@ Route::model('comment', 'Comment');
 Route::model('post', 'Post');
 Route::model('role', 'Role');
 Route::model('hotel', 'Hotel');
-Route::model('hotelpic', 'HotelPic');
 Route::model('ticket', 'Ticket');
+Route::model('userpic', 'Userpic');
 
 /** ------------------------------------------
  *  Route constraint patterns
@@ -34,6 +34,7 @@ Route::pattern('ticket', '[0-9]+');
 Route::pattern('user', '[0-9]+');
 Route::pattern('role', '[0-9]+');
 Route::pattern('token', '[0-9a-z]+');
+Route::pattern('userpic', '[0-9a-z]+');
 
 /** ------------------------------------------
  *  Admin Routes
@@ -98,6 +99,14 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth'), function()
  *  ------------------------------------------
  */
 
+//用户相册
+Route::get('test','UserpicController@test');
+Route::get('travel/user/album/data', 'UserpicController@getAlbumData');
+Route::post('travel/user/album/upload', 'UserpicController@postAlbumData');
+Route::get('user/album', 'UserpicController@getAlbum');
+Route::post('user/album', 'UserpicController@postAlbum');
+Route::get('user/show', 'UserController@getUserShow');
+Route::get('user/list', 'UserController@getUserList');//获取用户列表，用户模型应该增加选择首页展示字段。
 // User reset routes
 Route::get('user/reset/{token}', 'UserController@getReset');
 // User password reset
@@ -124,11 +133,23 @@ Route::get('contact-us', function()
 });
 
 # Posts - Second to last set, match slug
-Route::get('{postSlug}', 'BlogController@getView');
-Route::post('{postSlug}', 'BlogController@postView');
-#
+Route::get('post/{postSlug}', 'BlogController@getView');
+Route::post('post/{postSlug}', 'BlogController@postView');
+
+Route::get('travel/{travel}/post', function(){
+		return View::make('fiji/travel/create_edit');
+});
+Route::get('travel/index','TravelController@getIndex');
+Route::get('travel/{travel}/show',function($id){
+		return View::make('fiji/travel/show');
+});
+Route::controller('travel','TravelController');
+
+Route::get('hotel/index','HotelController@getIndex');
+Route::get('hotel/{id}','HotelController@getView');
 Route::get('ticket/index','TicketController@getIndex');
 Route::get('ticket/{id}','TicketController@getView');
 
+
 # Index Page - Last route, no matches
-Route::get('/', array('before' => 'detectLang','uses' => 'BlogController@getIndex'));
+Route::get('/', array('before' => 'detectLang','uses' => 'IndexController@getIndex'));

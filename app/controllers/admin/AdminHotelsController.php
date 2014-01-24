@@ -27,8 +27,9 @@ class AdminHotelsController extends AdminController {
     public function getIndex()
     {
         // Title
-        $title = Lang::get('admin/hotels/title.hotel_management');
+        //$title = Lang::get('admin/hotels/title.hotel_management');
 
+			$title = "酒店管理";
         // Grab all the blog posts
         $hotels = $this->hotel;
 
@@ -44,8 +45,9 @@ class AdminHotelsController extends AdminController {
 	public function getCreate()
 	{
         // Title
-        $title = Lang::get('admin/hotels/title.create_a_new_hotel');
+        //$title = Lang::get('admin/hotels/title.create_a_new_hotel');
 
+	$title = "新增酒店";
         // Show the page
         return View::make('admin/hotels/create_edit', compact('title'));
 	}
@@ -59,8 +61,13 @@ class AdminHotelsController extends AdminController {
 	{
         // Declare the rules for the form validation
         $rules = array(
-            'title'   => 'required|min:3',
-            'content' => 'required|min:3'
+            'name'   => 'required|min:3',
+            'content' => 'required|min:3',
+			'price'   => 'required|numeric',
+			'pic1_url' => 'required|image|max:1000',
+			'pic2_url' => 'required|image|max:1000',
+			'pic3_url' => 'required|image|max:1000',
+			'pic4_url' => 'required|image|max:1000'
         );
 
         // Validate the inputs
@@ -73,33 +80,68 @@ class AdminHotelsController extends AdminController {
             $user = Auth::user();
 
             // Update the blog post data
-            $this->hotel->title            = Input::get('title');
+            $this->hotel->name            = Input::get('name');
             $this->hotel->price            = Input::get('price');
-            $this->hotel->link             = Input::get('link');
             $this->hotel->content          = Input::get('content');
-            $this->hotel->user_id          = $user->id;
+	    //图片处理
+	    $imgDir1 = $this->iArtMkPicDir($this->hotel->name,0);
+	    $imgDir2 = $this->iArtMkPicDir($this->hotel->name,1);
+	    $imgDir3 = $this->iArtMkPicDir($this->hotel->name,2);
+	    $imgDir4 = $this->iArtMkPicDir($this->hotel->name,3);
+		$this->hotel->pic1_url  =	$imgDir1;//保存图片目录到数据库
+		$this->hotel->pic2_url  =	$imgDir2;//保存图片目录到数据库
+		$this->hotel->pic3_url  =	$imgDir3;//保存图片目录到数据库
+		$this->hotel->pic4_url  =	$imgDir4;//保存图片目录到数据库
+	    $image1	=	Input::file('pic1_url');
+	    $image2	=	Input::file('pic2_url');
+	    $image3	=	Input::file('pic3_url');
+	    $image4	=	Input::file('pic4_url');
+		$this->iArtSavePic($imgDir1,$image1);
+		$this->iArtSavePic($imgDir2,$image2);
+		$this->iArtSavePic($imgDir3,$image3);
+		$this->iArtSavePic($imgDir4,$image4);
+	    
 
-			//保存hotel相关图片
-            // Was the blog post created?
             if($this->hotel->save())
             {
-			$hotelpic	=	new HotelPic;
-			$hotelpic->hotel_id =	$this->hotel->id;
-			$hotelpic->user_id	=	Auth::user()->id;
-			$hotelpic->pic_url	=	Input::get('pic_url');
-			$this->hotel->hotelpics()->save($hotelpic);
-                // Redirect to the new blog post page
                 return Redirect::to('admin/hotels/' . $this->hotel->id . '/edit')->with('success', Lang::get('admin/hotels/messages.create.success'));
             }
-
-            // Redirect to the blog post create page
             return Redirect::to('admin/hotels/create')->with('error', Lang::get('admin/hotels/messages.create.error'));
         }
-
-        // Form validation failed
-        //return Redirect::to('admin/hotels/create')->withInput()->withErrors($validator);
 		return Redirect::to('/');
 	}
+
+	private function iArtMkPicDir($name,$int){
+			$imgDir = 'site/hotels/'.$name.time().'/'.$int;
+			if(!is_dir($imgDir)){
+					$this->mkdirs($imgDir);
+			}
+
+			return $imgDir;
+	}
+
+	private function mkdirs($dir){
+			if(!is_dir($dir))  
+			{  
+					if(!$this->mkdirs(dirname($dir))){  
+							return false;  
+					}  
+					if(!mkdir($dir,0777)){  
+							return false;  
+					}  
+			}  
+			return true;  
+	}
+
+	private function iArtSavePic($imgDir,$image){
+	    $origin_url	=	$imgDir."/origin.jpg";
+		$thumb_url	=	$imgDir."/thumb.jpg";
+		$origin	= Image::make($image->getRealPath());
+		$thumb	= Image::make($image->getRealPath())->resize(30,60);
+		$origin->save($origin_url);
+		$thumb->save($thumb_url);
+	}
+
 
     /**
      * Display the specified resource.
@@ -226,13 +268,18 @@ class AdminHotelsController extends AdminController {
      */
     public function getData()
     {
-        $hotels = Hotel::select(array('hotels.id', 'hotels.title', 'hotels.id as comments', 'hotels.created_at'));
+        $hotels = Hotel::select(array('hotels.id', 'hotels.name', 'hotels.pic1_url', 'hotels.pic2_url', 'hotels.pic3_url','hotels.pic4_url',  'hotels.content','hotels.created_at'));
 
         return Datatables::of($hotels)
 
+		->add_column('图片','<img class="iframe" src="{{{ URL::to(  $pic1_url  )}}}/thumb.jpg" /><img class="iframe" src="{{{ URL::to(  $pic2_url  )}}}/thumb.jpg" /><img class="iframe" src="{{{ URL::to(  $pic3_url  )}}}/thumb.jpg" /><img class="iframe" src="{{{ URL::to(  $pic4_url  )}}}/thumb.jpg" />')
         ->add_column('actions', '<a href="{{{ URL::to(\'admin/hotels/\' . $id . \'/edit\' ) }}}" class="btn btn-default btn-xs iframe" >{{{ Lang::get(\'button.edit\') }}}</a>
                 <a href="{{{ URL::to(\'admin/hotels/\' . $id . \'/delete\' ) }}}" class="btn btn-xs btn-danger iframe">{{{ Lang::get(\'button.delete\') }}}</a>
             ')
+	->remove_column('pic1_url')
+	->remove_column('pic2_url')
+	->remove_column('pic3_url')
+	->remove_column('pic4_url')
 
 
         ->remove_column('id')

@@ -116,21 +116,6 @@
 				parent.$.colorbox.close();
 				return false;
 			});
-			$('#deleteForm').submit(function(event) {
-								var form = $(this);
-											$.ajax({
-																	type: form.attr('method'),
-																							url: form.attr('action'),
-				data: form.serialize()
-							}).done(function() {
-													parent.jQuery.colorbox.close();
-																	parent.oTable.fnReloadAjax();
-																}).fail(function() {
-																					
-			});
-			event.preventDefault();
-		});
-		});
 		$('.wysihtml5').wysihtml5();
        	$(prettyPrint)
     </script>

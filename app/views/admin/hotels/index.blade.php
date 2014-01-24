@@ -27,6 +27,7 @@
 				<th class="col-md-4">{{{ Lang::get('admin/hotels/table.title') }}}</th>
 				<th class="col-md-2">{{{ Lang::get('admin/hotels/table.comments') }}}</th>
 				<th class="col-md-2">{{{ Lang::get('admin/hotels/table.created_at') }}}</th>
+				<th class="col-md-2">{{{ Lang::get('admin/hotels/table.test') }}}</th>
 				<th class="col-md-2">{{{ Lang::get('table.actions') }}}</th>
 			</tr>
 		</thead>

@@ -7,16 +7,54 @@ class UserController extends BaseController {
      * @var User
      */
     protected $user;
+	protected $userpic;
+	protected $travel;
 
     /**
      * Inject the models.
      * @param User $user
      */
-    public function __construct(User $user)
+    public function __construct(User $user, Userpic $userpic,Travel $travel)
     {
         parent::__construct();
         $this->user = $user;
+		$this->userpic = $userpic;
+		$this->travel = $travel;
     }
+
+	public function getUserList()
+	{
+			//只获取普通用户组
+			$users = $this->user->orderBy('created_at', 'DESC')->paginate(3);
+			if(empty($users)){
+					return "获取用户失败　";
+
+			}
+			return View::make('fiji/user/index', compact('users'));
+	}
+
+	public function getUserShow(){
+			$user = $this->user->currentUser();
+				if(empty($user)){
+						return Redirect::to('user/login');
+				}
+				$userpics = $this->userpic->where('user_id', '=', $user->id)->orderBy('created_at','DESC')->take(4)->get();
+
+	//		$user = $this->user->where('id', '=', $user)->first();
+	//		if(is_null($user)){
+	//				return App::abort(404);
+	//		}
+
+	//		//判断是否是用户自己, 若是别人则不显示上传图片和发表攻略链接。
+	//		$user = $this->user->currentUser();
+	//		if(!empty($user)){
+	//				return App::abort(404);
+
+	//		}
+	//		//结束判断
+
+			return View::make('fiji/user/user',compact('user','userpics'));
+	}
 
     /**
      * Users settings page
@@ -40,6 +78,9 @@ class UserController extends BaseController {
     {
         $this->user->username = Input::get( 'username' );
         $this->user->email = Input::get( 'email' );
+		$this->user->telephone = Input::get('telephone');
+		$this->user->city = Input::get('city');
+		$this->user->intro = Input::get('intro');
 
         $password = Input::get( 'password' );
         $passwordConfirmation = Input::get( 'password_confirmation' );
@@ -142,7 +183,7 @@ class UserController extends BaseController {
      */
     public function getCreate()
     {
-        return View::make('site/user/create');
+        return View::make('fiji/user/create');
     }
 
 
@@ -157,7 +198,7 @@ class UserController extends BaseController {
             return Redirect::to('/');
         }
 
-        return View::make('site/user/login');
+        return View::make('fiji/user/login');
     }
 
     /**

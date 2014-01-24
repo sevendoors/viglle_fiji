@@ -13,19 +13,11 @@ class Post extends Eloquent implements PresentableInterface {
 	 */
 	public function delete()
 	{
-		// Delete the comments
 		$this->comments()->delete();
 
-		// Delete the blog post
 		return parent::delete();
 	}
 
-	/**
-	 * Returns a formatted post content entry,
-	 * this ensures that line breaks are returned.
-	 *
-	 * @return string
-	 */
 	public function content()
 	{
 		return nl2br($this->content);
@@ -73,7 +65,7 @@ class Post extends Eloquent implements PresentableInterface {
 	 */
 	public function url()
 	{
-		return Url::to($this->slug);
+		return Url::to('post/'.$this->slug);
 	}
 
 	/**
